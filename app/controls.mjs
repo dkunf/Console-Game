@@ -54,6 +54,4 @@ export async function gameControls(details) {
     //   process.stdin.pause();
     process.exit();
   });
-
-  //   return lastPressed;
 }

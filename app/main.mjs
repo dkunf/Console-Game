@@ -96,45 +96,59 @@ class GameObject {
     gameField.updateObject(this);
     gameField.render();
   }
+  // oscilate() {
+  //   for (let i = 0; i < 3; i++) {
+  //     setTimeout(() => {
+  //       let dx = Math.round(Math.random());
+  //       let dy = Math.round(Math.random());
+  //       this.move(dx, dy);
+  //     }, 1000 + i * 300);
+  //   }
+  // }
 }
 
 let menu = new GameObject(patterns.menu, 2, 2);
 
-let nrOfStars = 10;
+let nrOfStars = 20;
 const arrayOfStars = Array(nrOfStars);
-setTimeout(() => {
-  for (let i = 0; i < nrOfStars; i++) {
-    let x = Math.round(totalColumns * Math.random());
-    let y = Math.round(4 * Math.random());
-    arrayOfStars.push(new GameObject(patterns.star, x, y));
-  }
-}, 4500);
-//it's funny to escape backslashes :)
+// setTimeout(() => {
+for (let i = 0; i < nrOfStars; i++) {
+  let x = Math.round(totalColumns * Math.random());
+  let y = Math.round(4 * Math.random());
+  arrayOfStars.push(new GameObject(patterns.star, x, y));
+}
+// }, 4500);
 
 let center = Math.round(totalColumns / 2);
 const spaceShip = new GameObject(patterns.spaceShip, center, totalRows - 8);
-
+let intervId;
 setTimeout(() => {
   gameField.clearObject(menu);
-  let count = totalRows;
-  while (count > -10) {
-    setTimeout(() => {
-      arrayOfStars.forEach((star) => star.move(0, 1));
+  // let count = totalRows;
+  // while (count > -10) {
+  intervId = setInterval(() => {
+    arrayOfStars.forEach((star) => {
+      star.move(0, 1);
+      // }
 
-      if (count % 3) {
-        arrayOfStars.push(
-          new GameObject(
-            patterns.star,
-            Math.round(totalColumns * Math.random()),
-            Math.round(4 * Math.random())
-          )
-        );
-      }
-    }, 2000 + count * 200);
-    count--;
-  }
+      // star.oscilate();
+    });
+
+    // if (count % 3) {
+    //   arrayOfStars.push(
+    //     new GameObject(
+    //       patterns.star,
+    //       Math.round(totalColumns * Math.random()),
+    //       Math.round(4 * Math.random())
+    //     )
+    //   );
+    // }
+    // count--;
+  }, 1000);
+  // }
 }, 4500);
 
+//trying to decouple main code from controls implementation
 //listens and reacts to left,right,down,up as asked in provided functions, and also q for exit
 gameControls({
   left: () => spaceShip.move(-3, 0),
